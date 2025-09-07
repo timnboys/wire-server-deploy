@@ -39,7 +39,7 @@
         state: absent
 
     - name: Remove Docker packages
-      apt:
+      yum:
         name:
           - docker-ce
           - docker-ce-cli
@@ -64,7 +64,7 @@
         append: no
   
     - name: Remove dependencies
-      apt:
+      yum:
         name:
           - yq
           - ncat
@@ -72,7 +72,7 @@
         autoremove: yes
 
     - name: Update apt package index
-      apt:
+      yum:
         update_cache: yes
 
     when: (uninstall_pkgs | default(false) | bool) and (remove_minikube | default(false) | bool)
