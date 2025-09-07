@@ -1,8 +1,7 @@
 - name: install rabbitmq-server
-  apt:
-    update_cache: yes
+  dnf:
     force: yes
-    pkg: "{{ item }}"
-    state: present
+    name: "{{ item }}"
+    state: latest
   with_items:
     - rabbitmq-server
