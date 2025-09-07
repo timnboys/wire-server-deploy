@@ -5,7 +5,7 @@
     ntp_server: pool.ntp.org # specify NTP server you wish to use here
   tasks:
     - name: Install NTP
-      apt:
+      yum:
         name: ntp
         state: present
 
