@@ -12,41 +12,41 @@
       sysctl_set: true
       state: present
       reload: true
-  - name: apt update
-    apt: update_cache=yes force_apt_get=yes
-  - name: apt upgrade
-    apt: upgrade=dist force_apt_get=yes
+  - name: Upgrade all packages
+    yum:
+    name: '*'
+    state: latest
   - name: install default packages
-    apt:
-      install_recommends: no
-      pkg:
-      - aptitude
-      - apt-transport-https
-      - bind9-host
-      - curl
-      - debian-goodies
-      - dnsutils
-      - git
-      - dnsmasq
-      - less
-      - lsof
-      - net-tools
-      - rsyslog
-      - screen
-      - sudo
-      - vim
-      - wget
-      - whois
-      - docker.io
-      - telnet
-      - python3-lxml
-      - qemu
-      - qemu-kvm
-      - qemu-utils
-      - libvirt-clients
-      - libvirt-daemon-system
-      - virtinst
-      - bridge-utils
+    yum:
+      name:
+       - aptitude
+       - apt-transport-https
+       - bind9-host
+       - curl
+       - debian-goodies
+       - dnsutils
+       - git
+       - dnsmasq
+       - less
+       - lsof
+       - net-tools
+       - rsyslog
+       - screen
+       - sudo
+       - vim
+       - wget
+       - whois
+       - docker.io
+       - telnet
+       - python3-lxml
+       - qemu
+       - qemu-kvm
+       - qemu-utils
+       - libvirt-clients
+       - libvirt-daemon-system
+       - virtinst
+       - bridge-utils
+      state: present
   - name: generate german locales
     locale_gen:
       name: de_DE.UTF-8
@@ -69,7 +69,7 @@
     lineinfile:
       path: /etc/default/keyboard
       regexp: '^#?XKVARIANT='
-      line: 'XKBVARIANT="de"'
+      line: 'XKBVARIANT="us"'
   - name: add default user accounts
     user:
       name: demo
