@@ -67,16 +67,12 @@
   - when: demo_deploy | default(false) == false
     block:
       - name: Bail if GPG is not installed or installable.
-        apt:
+        yum:
           name: gpg
           state: present
-      - name: Remove /etc/apt/sources.list to remove all online debian package repos
+      - name: Remove /etc/yum.repos.d/* to remove all online redhat package repos
         file:
-          path: /etc/apt/sources.list
-          state: absent
-      - name: Remove /etc/apt/sources.list.d/ to remove all online debian package repos
-        file:
-          path: /etc/apt/sources.list.d/
+          path: /etc/yum.repos.d/
           state: absent
 
 #######################################################################
@@ -99,15 +95,11 @@
 #############################
 # Otherwise, trust the repo.
 #############################
-      - name: Register offline repo key
-        apt_key:
-          url: "{{ ubuntu_repo_gpgkey }}"
-          state: present
 
       - name: Register offline repo
-        apt_repository:
-          repo: "deb {{ ubuntu_repo_base_url }} {{ ansible_distribution_release }} main"
+        yum:
+          install_repoquery: "deb {{ ubuntu_repo_base_url }} {{ ansible_distribution_release }} main"
           state: present
       - name: Apt update
-        apt:
-          update_cache: yes
+        yum:
+          update_cache: true
