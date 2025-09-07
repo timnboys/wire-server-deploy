@@ -8,7 +8,7 @@
   tasks:
   # this is an exception to install_pkgs, as it expects netcat before other tasks take place
   - name: Install Netcat
-    apt:
+    yum:
       name:
         - ncat
       state: present
