@@ -8,7 +8,7 @@
   tasks:
     - name: Install PostgreSQL dependencies
       become: yes
-      ansible.builtin.apt:
+      ansible.builtin.yum:
         name:
           - libssl-dev
           - libllvm15
@@ -21,7 +21,7 @@
 
     - name: Install PostgreSQL packages from repository
       become: yes
-      ansible.builtin.apt:
+      ansible.builtin.yum:
         name:
           - postgresql-{{ postgresql_version }}
           - postgresql-client-{{ postgresql_version }}
@@ -31,7 +31,7 @@
       when: postgresql_use_repository
 
     - name: Check installed versions of PostgreSQL packages
-      ansible.builtin.command: dpkg -s {{ item.name }}
+      ansible.builtin.command: rpm -q {{ item.name }}
       loop: "{{ postgresql_pkgs }}"
       register: pkg_check
       ignore_errors: yes
@@ -53,8 +53,9 @@
 
     - name: Install PostgreSQL packages from downloaded files
       become: yes
-      ansible.builtin.apt:
-        deb: "/tmp/{{ item.url | basename }}"
+      ansible.builtin.yum:
+        name: "/tmp/{{ item.url | basename }}"
+        state: present
       loop: "{{ postgresql_pkgs }}"
       when: 
         - not postgresql_use_repository
