@@ -2,7 +2,7 @@
   any_errors_fatal: true
   become: true
   vars:
-    ntp_server: ntp.ubuntu.com # specify NTP server you wish to use here
+    ntp_server: pool.ntp.org # specify NTP server you wish to use here
   tasks:
     - name: Install NTP
       apt:
