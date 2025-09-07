@@ -1,5 +1,5 @@
 - name: "Install systemd-coredump"
   when: install_systemd_coredump | bool
-  apt:
+  dnf:
     name: systemd-coredump
     state: latest
